@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BEE4F1AA2D43CF8200429A9D /* Exceptions for "ToDoList" folder in "ToDoList" target */ = {
+		BEE4F2382D43E36300429A9D /* Exceptions for "ToDoList" folder in "ToDoList" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Info.plist,
@@ -24,7 +24,7 @@
 		BED982882D40ED350004993D /* ToDoList */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				BEE4F1AA2D43CF8200429A9D /* Exceptions for "ToDoList" folder in "ToDoList" target */,
+				BEE4F2382D43E36300429A9D /* Exceptions for "ToDoList" folder in "ToDoList" target */,
 			);
 			path = ToDoList;
 			sourceTree = "<group>";
@@ -141,7 +141,7 @@
 		BED982972D40ED380004993D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = BED982882D40ED350004993D /* ToDoList */;
-			baseConfigurationReferenceRelativePath = "Resources/New Folder/Debug.xcconfig";
+			baseConfigurationReferenceRelativePath = Resources/Configurations/Debug.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

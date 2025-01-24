@@ -23,6 +23,7 @@ final class NetworkManager {
         case decodingError
         case noData
         case cancelled
+        case connectionFailed
         
         var errorDescription: String? {
             switch self {
@@ -36,6 +37,8 @@ final class NetworkManager {
                 return "Не удалось получить данные"
             case .cancelled:
                 return "Запрос был отменен"
+            case .connectionFailed:
+                return "Не удалось подключиться к серверу"
             }
         }
     }
@@ -53,7 +56,9 @@ final class NetworkManager {
         }
     }
     
-    private init() {}
+    private init() {
+        print("API URL: \(Constants.api)")
+    }
     
     func cancelFetch() {
         isCancelled = true
@@ -114,7 +119,7 @@ final class NetworkManager {
     private func performNetworkRequest(completion: @escaping ([Task]?, Error?) -> Void) {
         guard let url = URL(string: Constants.api) else { return }
         
-        self.currentTask = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+        self.currentTask = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self else { return }
             self.timeoutWorkItem?.cancel()
             
@@ -122,8 +127,26 @@ final class NetworkManager {
                 if error.code == NSURLErrorCancelled {
                     return
                 }
+                
+                if error.code == NSURLErrorCannotConnectToHost || 
+                   error.code == NSURLErrorNotConnectedToInternet ||
+                   error.code == NSURLErrorTimedOut {
+                    DispatchQueue.main.async {
+                        completion(nil, NetworkError.connectionFailed)
+                    }
+                    return
+                }
+                
                 DispatchQueue.main.async {
                     completion(nil, NetworkError.noData)
+                }
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse,
+               !(200...299).contains(httpResponse.statusCode) {
+                DispatchQueue.main.async {
+                    completion(nil, NetworkError.connectionFailed)
                 }
                 return
             }

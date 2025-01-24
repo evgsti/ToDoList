@@ -56,9 +56,7 @@ final class NetworkManager {
         }
     }
     
-    private init() {
-        print("API URL: \(Constants.api)")
-    }
+    private init() {}
     
     func cancelFetch() {
         isCancelled = true

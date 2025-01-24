@@ -10,10 +10,10 @@ import SwiftUI
 @main
 struct ToDoListApp: App {
     let persistenceController = PersistenceController.shared
-
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TaskListRouter.shared.makeTaskList()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

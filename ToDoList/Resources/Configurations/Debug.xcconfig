@@ -1,0 +1,11 @@
+//
+//  Debug.xcconfig
+//  ToDoList
+//
+//  Created by Евгений on 24.01.2025.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+API_URL = dummyjson.com/todos

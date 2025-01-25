@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TaskRow: View {
     @State private var showShareSheet = false
+    @State private var showEditView = false
 
     let viewModel: TaskRowViewModel
     let checkAction: () -> Void
@@ -64,7 +65,8 @@ struct TaskRow: View {
             NavigationLink(
                 destination: TaskListRouter.shared.makeTaskCreateAndUpdate(
                     task: viewModel.task
-                )
+                ),
+                isActive: $showEditView
             ) {
                 EmptyView()
             }
@@ -72,7 +74,7 @@ struct TaskRow: View {
         )
         .contextMenu {
             TaskRowContextMenuView(
-                edit: {},
+                edit: { showEditView = true },
                 share: { showShareSheet = true },
                 delete: deleteAction
             )

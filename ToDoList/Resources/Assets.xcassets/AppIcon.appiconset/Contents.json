@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "List-5.png",
+      "filename" : "LightIcon.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "List-4.png",
+      "filename" : "DarkIcon.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

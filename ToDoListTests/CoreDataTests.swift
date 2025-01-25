@@ -1,6 +1,6 @@
 //
 //  CoreDataTests.swift
-//  CoreDataTests
+//  ToDoList
 //
 //  Created by Евгений on 24.01.2025.
 //

@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct TaskRow: View {
-    @State private var showShareSheet = false
-    @State private var showEditView = false
-
     let viewModel: TaskRowViewModel
     let checkAction: () -> Void
     let deleteAction: () -> Void
@@ -59,47 +56,10 @@ struct TaskRow: View {
                 .frame(maxWidth: .infinity, maxHeight: 1)
                 .foregroundStyle(Color("stroke"))
         }
+        .contentShape(Rectangle()) 
         .listRowSeparator(.hidden)
         .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-        .background(
-            NavigationLink(
-                destination: TaskListRouter.shared.makeTaskCreateAndUpdate(
-                    task: viewModel.task
-                ),
-                isActive: $showEditView
-            ) {
-                EmptyView()
-            }
-                .opacity(0)
-        )
-        .contextMenu {
-            TaskRowContextMenuView(
-                edit: { showEditView = true },
-                share: { showShareSheet = true },
-                delete: deleteAction
-            )
-        } preview: {
-            TaskRowPreviewView(viewModel: viewModel)
-        }
-        .sheet(isPresented: $showShareSheet) {
-            ShareSheet(text: viewModel.shareText())
-                .presentationDetents([.medium])
-        }
     }
-}
-
-struct ShareSheet: UIViewControllerRepresentable {
-    let text: String
-    
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let activityViewController = UIActivityViewController(
-            activityItems: [text],
-            applicationActivities: nil
-        )
-        return activityViewController
-    }
-    
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 #Preview {

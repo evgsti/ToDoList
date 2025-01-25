@@ -10,6 +10,10 @@ import SwiftUI
 struct TaskList: View {
     @StateObject private var presenter: TaskListPresenter
     
+    @State private var showShareSheet = false
+    @State private var showEditView = false
+    @State private var selectedTask: TaskEntity?
+    
     init(presenter: TaskListPresenter) {
         _presenter = StateObject(wrappedValue: presenter)
     }
@@ -20,15 +24,32 @@ struct TaskList: View {
                 List(presenter.filteredTasks) { task in
                     TaskRow(
                         viewModel: TaskRowViewModel(task: task),
-                        checkAction: {
-                            presenter.toggleTaskCompletion(task: task)
-                        },
-                        deleteAction: {
-                            withAnimation {
-                                presenter.deleteTask(task: task)
-                            }
-                        }
+                        checkAction: { presenter.toggleTaskCompletion(task: task) },
+                        deleteAction: { presenter.deleteTask(task: task) }
                     )
+                    .onTapGesture {
+                        selectedTask = task
+                        showEditView = true
+                    }
+                    .contextMenu {
+                        TaskRowContextMenuView(
+                            edit: {
+                                selectedTask = task
+                                showEditView = true
+                            },
+                            share: {
+                                selectedTask = task
+                                showShareSheet = true
+                            },
+                            delete: {
+                                withAnimation {
+                                    presenter.deleteTask(task: task)
+                                }
+                            }
+                        )
+                    } preview: {
+                        TaskRowPreviewView(viewModel: TaskRowViewModel(task: task))
+                    }
                 }
                 .searchable(
                     text: $presenter.searchText,
@@ -71,6 +92,17 @@ struct TaskList: View {
                             disableStatus: presenter.disableStatus
                         )
                     )
+                }
+            }
+            .navigationDestination(isPresented: $showEditView) {
+                if let task = selectedTask {
+                    TaskListRouter.shared.makeTaskCreateAndUpdate(task: task)
+                }
+            }
+            .sheet(isPresented: $showShareSheet) {
+                if let task = selectedTask {
+                    ShareSheetView(text: TaskRowViewModel(task: task).shareText())
+                        .presentationDetents([.medium])
                 }
             }
         }

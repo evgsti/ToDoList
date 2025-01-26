@@ -27,9 +27,25 @@ struct TaskCreateAndUpdateView: View {
                 .font(.system(size: 16))
                 .foregroundStyle(.secondary)
             
-            TextField("Описание", text: $presenter.description, axis: .vertical)
-                .font(.system(size: 16, weight: .semibold))
-                .padding(.top, 16)
+            ZStack(alignment: .leading) {
+                if presenter.description.isEmpty {
+                    VStack {
+                        Text("Описание")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(.secondary)
+                            .opacity(0.493)
+                            .padding(.top, 3)
+                        
+                        Spacer()
+                    }
+                }
+                
+                TextEditor(text: $presenter.description)
+                    .font(.system(size: 16))
+                    .textEditorStyle(.plain)
+                    .contentMargins(-5)
+            }
+            .padding(.top, 16)
             
             Spacer()
         }

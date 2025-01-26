@@ -31,6 +31,15 @@ struct TaskList: View {
                         selectedTask = task
                         showEditView = true
                     }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            withAnimation {
+                                presenter.deleteTask(task: task)
+                            }
+                        } label: {
+                            Label("Удалить", systemImage: "trash")
+                        }
+                    }
                     .contextMenu {
                         TaskRowContextMenuView(
                             edit: {

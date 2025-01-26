@@ -41,7 +41,7 @@ struct TaskCreateAndUpdateView: View {
                 }
                 
                 TextEditor(text: $presenter.description)
-                    .font(.system(size: 16))
+                    .font(.system(size: 16, weight: .semibold))
                     .textEditorStyle(.plain)
                     .contentMargins(-5)
             }

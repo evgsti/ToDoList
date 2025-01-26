@@ -18,15 +18,12 @@ final class TaskListInteractor {
     }
     
     func fetchTasks(completion: @escaping (Result<[TaskEntity], Error>) -> Void) {
-        let hasLaunchedBefore = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
-        
-        if !hasLaunchedBefore {
-            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
-            
+        let hasSavedDataBefore = UserDefaults.standard.bool(forKey: "hasSavedDataBefore")
+
+        if !hasSavedDataBefore {
             networkManager.fetchData { [weak self] fetchedTasks, error in
                 guard let self = self else { return }
-                
-                
+                                
                 if let error = error {
                     completion(.failure(error))
                     return
@@ -46,6 +43,8 @@ final class TaskListInteractor {
                     }
                     
                     group.notify(queue: .main) {
+                        UserDefaults.standard.set(true, forKey: "hasSavedDataBefore")
+
                         self.storageManager.fetchTasks { tasks in
                             completion(.success(tasks))
                         }

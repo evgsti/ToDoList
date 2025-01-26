@@ -93,6 +93,18 @@ struct TaskList: View {
                         )
                     )
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    if !presenter.isLoading &&
+                        presenter.tasks.isEmpty &&
+                        !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
+                        Button {
+                            presenter.loadTasks()
+                        } label: {
+                            Image(systemName: "arrow.clockwise")
+                        }
+                    }
+                }
             }
             .navigationDestination(isPresented: $showEditView) {
                 if let task = selectedTask {

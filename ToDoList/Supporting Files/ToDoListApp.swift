@@ -17,12 +17,5 @@ struct ToDoListApp: App {
             TaskListRouter.shared.makeTaskList()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
-        .onChange(of: scenePhase) { oldPhase, newPhase in
-            if newPhase == .background {
-                if !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
-                    UserDefaults.standard.set(true, forKey: "hasFetchedADataBefore")
-                }
-            }
-        }
     }
 }

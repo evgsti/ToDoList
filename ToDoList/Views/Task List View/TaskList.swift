@@ -96,8 +96,7 @@ struct TaskList: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     if !presenter.isLoading &&
-                        presenter.tasks.isEmpty &&
-                        !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
+                        presenter.tasks.isEmpty {
                         Button {
                             presenter.loadTasks()
                         } label: {
